@@ -19,21 +19,8 @@ CREATE TABLE `course_info`
 (
     `id`            BIGINT PRIMARY KEY AUTO_INCREMENT,
     `course_id`     VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-    `name`          VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `name`          VARCHAR(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
     KEY `idx_course_id` (`course_id`)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8mb4
-    COLLATE = utf8mb4_bin;
-
-DROP TABLE IF EXISTS `course_exercise_relation`;
-CREATE TABLE `course_exercise_relation`
-(
-    `id`          BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `course_id`   VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-    `exercise_id` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
-    KEY `idx_course_id` (`course_id`),
-    KEY `idx_exercise_id` (`exercise_id`)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8mb4
@@ -48,7 +35,7 @@ CREATE TABLE `student_answer`
     `problem_id`  VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
     `is_correct`  INT,
     `attempts`    INT,
-    `score`       INT,
+    `score`       DECIMAL,
     `submit_time` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
     KEY `idx_user_id` (`user_id`),
     KEY `idx_problem_id` (`problem_id`)
@@ -57,3 +44,35 @@ CREATE TABLE `student_answer`
     DEFAULT CHARSET = utf8mb4
     COLLATE = utf8mb4_bin;
 
+DROP TABLE IF EXISTS `exercise_problem_relation`;
+CREATE TABLE `exercise_problem_relation`
+(
+    `id`          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `exercise_id`     VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `problem_id`      VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    KEY `idx_exercise_id` (`exercise_id`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_bin;
+
+DROP TABLE IF EXISTS `problem`;
+CREATE TABLE `problem`
+(
+    `id`          BIGINT PRIMARY KEY AUTO_INCREMENT,
+    `exercise_id` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `problem_id`  BIGINT,
+    `title`       MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `content`     MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `answer`      MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `score`       DECIMAL,
+    `type`        INT,
+    `type_text`   VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `location`    VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    `language`    VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+    KEY `idx_exercise_id` (`exercise_id`),
+    KEY `idx_problem_id` (`problem_id`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARSET = utf8mb4
+    COLLATE = utf8mb4_bin;
